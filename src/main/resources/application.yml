@@ -1,0 +1,46 @@
+# Spring
+spring.security:
+  basic.enable: false
+  ignored: /**
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: 'false'
+    show-sql: 'true'
+    hibernate:
+      ddl-auto: update
+  # SSO credentials
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 971227168788-372agnn9mfs1b5a6jiu9bt2alr9hit5s.apps.googleusercontent.com
+            clientSecret: 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
+            redirect-uri: http://localhost:14000/login/oauth2/code/google
+          facebook:
+            clientId: 1805019843173875
+            clientSecret: d7b3407f5c6c2dda4e29f39c7347fdc2
+            redirect-uri: http://localhost:14000/login/oauth2/code/facebook
+
+auth:
+  facebook:
+    redirect: http://localhost:14000/oauth2/authorization/facebook
+  google:
+    redirect: http://localhost:14000/oauth2/authorization/google
+
+# Database
+database.url: "${DATABASE_URL}"
+
+# Server configuration
+server:
+  port : 14000
+
+# Application FE
+client:
+  url: http://localhost:${client.port}
+  port: 4200
