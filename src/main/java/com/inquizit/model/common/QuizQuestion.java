@@ -1,17 +1,20 @@
 package com.inquizit.model.common;
 
-import com.inquizit.model.enums.QuestionType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class QuizQuestion {
 
     private String question;
-    private QuestionType type;
+    private int type;
     private List<QuizAnswer> answers;
 
 }
