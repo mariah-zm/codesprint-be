@@ -34,7 +34,7 @@ auth:
     redirect: http://localhost:14000/oauth2/authorization/google
 
 # Database
-database.url: "${DATABASE_URL}"
+database.url: postgres://postgres:postgres@localhost:5432/inquizit
 
 # Server configuration
 server:

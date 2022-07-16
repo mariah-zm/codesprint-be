@@ -1,5 +1,6 @@
 package com.inquizit.model.entities;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,9 +10,10 @@ import java.io.Serializable;
 @Setter
 @Getter
 @Embeddable
+@EqualsAndHashCode
 public class QuizQuestionId implements Serializable {
 
     private String quizId;
-    private Integer quesNum;
+    private Integer quesNumber;
 
 }

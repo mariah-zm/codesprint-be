@@ -20,7 +20,4 @@ public class QuizEntity {
     private String msgFailure;
     private Integer numQuestions;
 
-    @OneToMany(mappedBy = "quiz_question", cascade = CascadeType.ALL)
-    private List<QuizQuestionEntity> questions;
-
 }

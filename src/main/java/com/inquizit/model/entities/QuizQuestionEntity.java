@@ -16,11 +16,4 @@ public class QuizQuestionEntity {
     private String question;
     private Integer quesType;
 
-    @MapsId("quizId")
-    @ManyToOne
-    private QuizEntity quiz;
-
-    @OneToMany(mappedBy = "quiz_answer", cascade = CascadeType.ALL)
-    private List<QuizAnswerEntity> answers;
-
 }

@@ -16,8 +16,4 @@ public class QuizAnswerEntity {
     private Integer score;
     private Boolean isCorrect;
 
-    @MapsId("quesNum")
-    @ManyToOne
-    private QuizQuestionEntity question;
-
 }
