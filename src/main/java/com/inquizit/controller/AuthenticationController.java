@@ -1,7 +1,10 @@
 package com.inquizit.controller;
 
+import com.inquizit.exceptions.UserIsNotAuthenticatedException;
+import com.inquizit.model.enums.RoleType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,10 +18,8 @@ import java.io.IOException;
 
 @Slf4j
 @RestController
+@RequestMapping("/auth")
 public class AuthenticationController {
-
-    @Value("${client.url}")
-    private String clientUrl;
 
     @Value("${auth.google.redirect}")
     private String googleSignInRedirect;
@@ -26,29 +27,36 @@ public class AuthenticationController {
     @Value("${auth.facebook.redirect}")
     private String facebookSignInRedirect;
 
-    @GetMapping("/auth/is-authenticated")
+    @GetMapping("/is-authenticated")
     public @ResponseBody boolean handleIsUserAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("Is user authenticated: {}", !(authentication instanceof AnonymousAuthenticationToken));
-        return !(authentication instanceof AnonymousAuthenticationToken);
+        boolean isAuthenticated = !(authentication instanceof AnonymousAuthenticationToken);
+        log.info("Is user authenticated: {}", isAuthenticated);
+
+        return isAuthenticated;
     }
 
-    @GetMapping("/auth/login-google")
+    @GetMapping("/login-google")
     public void handleGoogleLogin(HttpServletResponse response) throws IOException {
         // Redirecting user to google sign up page
         log.info("User is authenticating with google");
         response.sendRedirect(googleSignInRedirect);
     }
 
-    @GetMapping("/auth/login-facebook")
+    @GetMapping("/role")
+    public @ResponseBody RoleType getUserRole() {
+        return RoleType.STUDENT;
+    }
+
+    @GetMapping("/login-facebook")
     public void handleFacebookLogin(HttpServletResponse response) throws IOException {
         // Redirecting user to google sign up page
         log.info("User is authenticating with facebook");
         response.sendRedirect(facebookSignInRedirect);
     }
 
-    @PostMapping("/auth/logout")
-    public void handleLogout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @PostMapping("/logout")
+    public void handleLogout(HttpServletRequest request, HttpServletResponse response) {
         Cookie rememberMeCookie = new Cookie("JSESSIONID", "");
         rememberMeCookie.setMaxAge(0);
         response.addCookie(rememberMeCookie);
@@ -57,13 +65,6 @@ public class AuthenticationController {
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-    }
-
-    @GetMapping("/")
-    public void handleOAuthRedirect(HttpServletResponse response) throws IOException {
-        // TODO handle user data to add in DB
-        log.info("User has been authenticated");
-        response.sendRedirect(clientUrl);
     }
 
 }
