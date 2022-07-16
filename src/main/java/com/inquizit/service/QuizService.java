@@ -1,16 +1,17 @@
 package com.inquizit.service;
 
+import com.inquizit.exceptions.QuizNotFoundException;
+import com.inquizit.model.domain.Quiz;
+import com.inquizit.model.domain.QuizInfo;
 import com.inquizit.model.input.QuizInput;
-import com.inquizit.model.output.QuizInfoResponse;
-import com.inquizit.model.output.QuizResponse;
 
 import java.util.List;
 
 public interface QuizService {
 
-    QuizResponse getQuiz(String id);
+    Quiz getQuiz(String id) throws QuizNotFoundException;
 
-    List<QuizInfoResponse> getAllQuizzes();
+    List<QuizInfo> getAllQuizzes();
 
     void addNewQuiz(String userId, QuizInput quiz);
 

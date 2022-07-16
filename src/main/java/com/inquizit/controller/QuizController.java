@@ -1,5 +1,9 @@
 package com.inquizit.controller;
 
+import com.inquizit.converter.DomainToOutput;
+import com.inquizit.exceptions.QuizNotFoundException;
+import com.inquizit.model.domain.Quiz;
+import com.inquizit.model.domain.QuizInfo;
 import com.inquizit.model.input.QuizInput;
 import com.inquizit.model.output.QuizInfoResponse;
 import com.inquizit.model.output.QuizResponse;
@@ -19,13 +23,15 @@ public class QuizController {
     }
 
     @GetMapping("/{quizId}")
-    public @ResponseBody QuizResponse getQuiz(@PathVariable String quizId) {
-        return quizService.getQuiz(quizId);
+    public @ResponseBody QuizResponse getQuiz(@PathVariable String quizId) throws QuizNotFoundException {
+        Quiz quiz = quizService.getQuiz(quizId);
+        return DomainToOutput.convert(quiz);
     }
 
     @GetMapping("")
     public @ResponseBody List<QuizInfoResponse> getAllQuizzes() {
-        return quizService.getAllQuizzes();
+        List<QuizInfo> infoList = this.quizService.getAllQuizzes();
+        return DomainToOutput.convert(infoList);
     }
 
     @PostMapping("/{userId}/new/")

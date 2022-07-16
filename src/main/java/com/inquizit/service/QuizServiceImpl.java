@@ -1,76 +1,93 @@
 package com.inquizit.service;
 
-import com.inquizit.model.domain.QuizAnswer;
+import com.inquizit.exceptions.QuizNotFoundException;
+import com.inquizit.model.domain.Quiz;
+import com.inquizit.model.domain.QuizInfo;
 import com.inquizit.model.domain.QuizQuestion;
-import com.inquizit.model.enums.QuestionType;
+import com.inquizit.model.entities.QuizEntity;
 import com.inquizit.model.input.QuizInput;
-import com.inquizit.model.output.QuizInfoResponse;
-import com.inquizit.model.output.QuizResponse;
+import com.inquizit.repository.QuizRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 @Service
 public class QuizServiceImpl implements QuizService {
 
-    @Override
-    public QuizResponse getQuiz(String id) {
-        QuizAnswer ans11 = new QuizAnswer("2", 1,true);
-        QuizAnswer ans12 = new QuizAnswer("1", 0,false);
-        QuizQuestion ques1 = new QuizQuestion(
-                "What is 1 + 1?",
-                QuestionType.SINGLE_ANSWER.getValue(),
-                List.of(ans11, ans12));
+    public final QuizRepository quizRepository;
 
-        QuizAnswer ans21 = new QuizAnswer("2", 1,true);
-        QuizAnswer ans22 = new QuizAnswer("1", 0,false);
-        QuizAnswer ans23 = new QuizAnswer("4", 1,true);
-        QuizQuestion ques2 = new QuizQuestion(
-                "Which of these numbers are even?",
-                QuestionType.MULTIPLE_ANSWERS.getValue(),
-                List.of(ans21, ans22, ans23));
+    public final QuizQuestionService quizQuestionService;
 
-        QuizAnswer ans31 = new QuizAnswer("True", 1,true);
-        QuizAnswer ans32 = new QuizAnswer("False", 0,false);
-        QuizQuestion ques3 = new QuizQuestion(
-                "A triangle has 3 sides.",
-                QuestionType.TRUE_FALSE.getValue(),
-                List.of(ans31, ans32));
-
-
-        QuizResponse quiz = new QuizResponse();
-        quiz.setName("Maths Quiz");
-        quiz.setPassingScore(3);
-        quiz.setShowCorrect(true);
-        quiz.setMsgFail("Oh no! You did not pass.");
-        quiz.setMsgSuccess("Yay! You passed the quiz.");
-        quiz.setQuestions(List.of(ques1, ques2, ques3));
-
-        return quiz;
+    public QuizServiceImpl(QuizRepository quizRepository, QuizQuestionService quizQuestionService) {
+        this.quizRepository = quizRepository;
+        this.quizQuestionService = quizQuestionService;
     }
 
     @Override
-    public List<QuizInfoResponse> getAllQuizzes() {
-        QuizInfoResponse quiz1 = new QuizInfoResponse(
-                "Maths Quiz",
-                "math",
-                "Quiz about numbers",
-                5
-        );
+    public Quiz getQuiz(String id) throws QuizNotFoundException {
+        Optional<QuizEntity> optional = this.quizRepository.findById(id);
 
-        QuizInfoResponse quiz2 = new QuizInfoResponse(
-                "Space Quiz",
-                "space",
-                "Quiz about planets",
-                6
-        );
+        if (optional.isPresent()) {
+            QuizEntity quizEntity = optional.get();
+            List<QuizQuestion> quizQuestions = quizQuestionService.getQuizQuestions(id);
 
-        return List.of(quiz1, quiz2);
+            return new Quiz(
+                    quizEntity.getId(),
+                    quizEntity.getName(),
+                    quizEntity.getDescription(),
+                    quizEntity.getPassingScore(),
+                    quizEntity.getShowCorrect(),
+                    quizEntity.getMsgSuccess(),
+                    quizEntity.getMsgFailure(),
+                    quizQuestions
+            );
+        }
+
+        log.error("The quiz with Id {} does not exist", id);
+        throw new QuizNotFoundException();
+    }
+
+    @Override
+    public List<QuizInfo> getAllQuizzes() {
+        List<String> quizIds = quizRepository.getAllIds();
+        List<QuizInfo> infoList = new ArrayList<>();
+
+        for (String id: quizIds) {
+            try {
+                QuizInfo info = this.getQuizInfo(id);
+                infoList.add(info);
+            } catch (QuizNotFoundException ex) {
+                log.error("The quiz with Id {} does not exist", id);
+            }
+        }
+
+        return infoList;
     }
 
     @Override
     public void addNewQuiz(String userId, QuizInput quiz) {
 
+    }
+
+    private QuizInfo getQuizInfo(String id) throws QuizNotFoundException {
+        Optional<QuizEntity> optional = this.quizRepository.findById(id);
+
+        if (optional.isPresent()) {
+            QuizEntity quizEntity = optional.get();
+            int numQues = this.quizQuestionService.getNumQuestionsInQuiz(id);
+
+            return new QuizInfo(
+                    quizEntity.getId(),
+                    quizEntity.getName(),
+                    quizEntity.getDescription(),
+                    numQues
+            );
+        }
+        throw new QuizNotFoundException();
     }
 
 }

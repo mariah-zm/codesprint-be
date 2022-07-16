@@ -1,4 +1,4 @@
 package com.inquizit.exceptions;
 
-public class QuizNotFoundException extends Throwable {
+public class QuizNotFoundException extends Exception {
 }

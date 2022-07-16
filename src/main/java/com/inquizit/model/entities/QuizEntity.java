@@ -18,6 +18,5 @@ public class QuizEntity {
     private Boolean showCorrect;
     private String msgSuccess;
     private String msgFailure;
-    private Integer numQuestions;
 
 }
