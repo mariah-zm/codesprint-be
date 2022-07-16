@@ -12,6 +12,6 @@ public interface QuizService {
 
     List<QuizInfoResponse> getAllQuizzes();
 
-    void addNewQuiz(QuizInput quiz);
+    void addNewQuiz(String userId, QuizInput quiz);
 
 }

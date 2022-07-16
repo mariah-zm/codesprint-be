@@ -28,9 +28,9 @@ public class QuizController {
         return quizService.getAllQuizzes();
     }
 
-    @PostMapping("/new")
-    public @ResponseBody void addNewQuiz(@RequestBody QuizInput quizInput) {
-        quizService.addNewQuiz(quizInput);
+    @PostMapping("/{userId}/new/")
+    public @ResponseBody void addNewQuiz(@RequestBody QuizInput quizInput, @PathVariable String userId) {
+        quizService.addNewQuiz(userId, quizInput);
     }
 
 }

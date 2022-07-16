@@ -69,7 +69,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public void addNewQuiz(QuizInput quiz) {
+    public void addNewQuiz(String userId, QuizInput quiz) {
 
     }
 
