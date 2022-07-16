@@ -5,6 +5,7 @@ import com.inquizit.model.domain.Quiz;
 import com.inquizit.model.domain.QuizInfo;
 import com.inquizit.model.domain.QuizQuestion;
 import com.inquizit.model.entities.QuizEntity;
+import com.inquizit.model.input.QuizInfoInput;
 import com.inquizit.model.input.QuizInput;
 import com.inquizit.repository.QuizRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,12 @@ public class QuizServiceImpl implements QuizService {
     public QuizServiceImpl(QuizRepository quizRepository, QuizQuestionService quizQuestionService) {
         this.quizRepository = quizRepository;
         this.quizQuestionService = quizQuestionService;
+    }
+
+    @Override
+    public boolean doesIdExist(String name) {
+        Optional<QuizEntity> optional = quizRepository.findById(name);
+        return optional.isPresent();
     }
 
     @Override
@@ -69,8 +76,23 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public void addNewQuiz(String userId, QuizInput quiz) {
+    public void addNewQuiz(QuizInput quiz) {
+        QuizInfoInput info = quiz.getInfo();
 
+        QuizEntity entity = new QuizEntity(
+                info.getSlug(),
+                info.getName(),
+                info.getDescription(),
+                info.getPassingScore(),
+                info.isShowCorrect(),
+                info.getMsgSuccess(),
+                info.getMsgFailure()
+        );
+
+        quizRepository.save(entity);
+
+        // Delegating addition of questions to service
+        this.quizQuestionService.addQuestions(info.getSlug(), quiz.getQuestions());
     }
 
     private QuizInfo getQuizInfo(String id) throws QuizNotFoundException {

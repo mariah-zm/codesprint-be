@@ -22,6 +22,11 @@ public class QuizController {
         this.quizService = quizService;
     }
 
+    @GetMapping("/slug")
+    public @ResponseBody boolean isSlugTaken(@RequestParam String name) {
+        return quizService.doesIdExist(name);
+    }
+
     @GetMapping("/{quizId}")
     public @ResponseBody QuizResponse getQuiz(@PathVariable String quizId) throws QuizNotFoundException {
         Quiz quiz = quizService.getQuiz(quizId);
@@ -34,9 +39,9 @@ public class QuizController {
         return DomainToOutput.convert(infoList);
     }
 
-    @PostMapping("/{userId}/new/")
-    public @ResponseBody void addNewQuiz(@RequestBody QuizInput quizInput, @PathVariable String userId) {
-        quizService.addNewQuiz(userId, quizInput);
+    @PostMapping("/new")
+    public @ResponseBody void addNewQuiz(@RequestBody QuizInput quizInput) {
+        quizService.addNewQuiz(quizInput);
     }
 
 }

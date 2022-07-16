@@ -8,4 +8,6 @@ public interface QuizAnswerService {
 
     List<QuizAnswer> getQuestionAnswers(String quizId, Integer quesNum);
 
+    void addAnswers(String quizId, int quesNum, List<QuizAnswer> answers);
+
 }

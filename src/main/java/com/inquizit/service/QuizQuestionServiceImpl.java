@@ -41,4 +41,22 @@ public class QuizQuestionServiceImpl implements QuizQuestionService {
         return questions.size();
     }
 
+    @Override
+    public void addQuestions(String quizId, List<QuizQuestion> questions) {
+        for (int idx = 0; idx < questions.size(); ++idx) {
+            QuizQuestion ques = questions.get(idx);
+
+            QuizQuestionEntity entity = new QuizQuestionEntity();
+            entity.getQuesId().setQuesNumber(idx);
+            entity.getQuesId().setQuizId(quizId);
+            entity.setQuestion(ques.getQuestion());
+            entity.setQuesType(ques.getType());
+
+            quizQuestionRepository.save(entity);
+
+            // Delegating saving of answers to other service
+            quizAnswerService.addAnswers(quizId, idx, ques.getAnswers());
+        }
+    }
+
 }

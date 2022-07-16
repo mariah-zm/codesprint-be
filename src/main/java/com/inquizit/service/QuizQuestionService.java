@@ -10,4 +10,6 @@ public interface QuizQuestionService {
 
     int getNumQuestionsInQuiz(String quizId);
 
+    void addQuestions(String quizId, List<QuizQuestion> questions);
+
 }

@@ -13,6 +13,7 @@ public interface QuizService {
 
     List<QuizInfo> getAllQuizzes();
 
-    void addNewQuiz(String userId, QuizInput quiz);
+    void addNewQuiz(QuizInput quiz);
 
+    boolean doesIdExist(String name);
 }

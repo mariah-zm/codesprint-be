@@ -31,4 +31,21 @@ public class QuizAnswerServiceImpl implements QuizAnswerService {
         return domainAnswers;
     }
 
+    @Override
+    public void addAnswers(String quizId, int quesNum, List<QuizAnswer> answers) {
+        for (int idx = 0; idx < answers.size(); ++idx) {
+            QuizAnswer answer = answers.get(idx);
+
+            QuizAnswerEntity entity = new QuizAnswerEntity();
+            entity.getAnswerId().setQuizId(quizId);
+            entity.getAnswerId().setQuesNumber(quesNum);
+            entity.getAnswerId().setAnsNumber(idx);
+            entity.setAnswer(answer.getAnswer());
+            entity.setScore(answer.getScore());
+            entity.setIsCorrect(answer.isCorrect());
+
+            quizAnswerRepository.save(entity);
+        }
+    }
+
 }
