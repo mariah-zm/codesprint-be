@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class QuizAnswerId implements Serializable {
 
     private String quizId;
-    private Integer quesNumber;
-    private Integer ansNumber;
+    private int quesNumber;
+    private int ansNumber;
 
 }

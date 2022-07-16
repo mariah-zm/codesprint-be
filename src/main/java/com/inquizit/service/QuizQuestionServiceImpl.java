@@ -3,6 +3,7 @@ package com.inquizit.service;
 import com.inquizit.model.domain.QuizAnswer;
 import com.inquizit.model.domain.QuizQuestion;
 import com.inquizit.model.entities.QuizQuestionEntity;
+import com.inquizit.model.entities.QuizQuestionId;
 import com.inquizit.repository.QuizQuestionRepository;
 import org.springframework.stereotype.Service;
 
@@ -47,15 +48,17 @@ public class QuizQuestionServiceImpl implements QuizQuestionService {
             QuizQuestion ques = questions.get(idx);
 
             QuizQuestionEntity entity = new QuizQuestionEntity();
-            entity.getQuesId().setQuesNumber(idx);
-            entity.getQuesId().setQuizId(quizId);
+            QuizQuestionId id = new QuizQuestionId();
+            id.setQuesNumber(idx+1);
+            id.setQuizId(quizId);
+            entity.setQuesId(id);
             entity.setQuestion(ques.getQuestion());
             entity.setQuesType(ques.getType());
 
             quizQuestionRepository.save(entity);
 
             // Delegating saving of answers to other service
-            quizAnswerService.addAnswers(quizId, idx, ques.getAnswers());
+            quizAnswerService.addAnswers(quizId, idx+1, ques.getAnswers());
         }
     }
 

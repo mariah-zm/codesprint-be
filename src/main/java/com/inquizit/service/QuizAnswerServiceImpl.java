@@ -3,6 +3,8 @@ package com.inquizit.service;
 import com.inquizit.converter.EntityToDomain;
 import com.inquizit.model.domain.QuizAnswer;
 import com.inquizit.model.entities.QuizAnswerEntity;
+import com.inquizit.model.entities.QuizAnswerId;
+import com.inquizit.model.entities.QuizQuestionId;
 import com.inquizit.repository.QuizAnswerRepository;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +39,11 @@ public class QuizAnswerServiceImpl implements QuizAnswerService {
             QuizAnswer answer = answers.get(idx);
 
             QuizAnswerEntity entity = new QuizAnswerEntity();
-            entity.getAnswerId().setQuizId(quizId);
-            entity.getAnswerId().setQuesNumber(quesNum);
-            entity.getAnswerId().setAnsNumber(idx);
+            QuizAnswerId id = new QuizAnswerId();
+            id.setQuesNumber(quesNum);
+            id.setQuizId(quizId);
+            id.setAnsNumber(idx+1);
+            entity.setAnswerId(id);
             entity.setAnswer(answer.getAnswer());
             entity.setScore(answer.getScore());
             entity.setIsCorrect(answer.isCorrect());
