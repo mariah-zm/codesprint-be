@@ -1,7 +1,7 @@
 package com.inquizit.service;
 
-import com.inquizit.model.common.QuizAnswer;
-import com.inquizit.model.common.QuizQuestion;
+import com.inquizit.model.domain.QuizAnswer;
+import com.inquizit.model.domain.QuizQuestion;
 import com.inquizit.model.enums.QuestionType;
 import com.inquizit.model.input.QuizInput;
 import com.inquizit.model.output.QuizInfoResponse;

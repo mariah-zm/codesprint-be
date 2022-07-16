@@ -1,6 +1,6 @@
 package com.inquizit.model.output;
 
-import com.inquizit.model.common.QuizQuestion;
+import com.inquizit.model.domain.QuizQuestion;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,4 +1,4 @@
-package com.inquizit.model.common;
+package com.inquizit.model.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

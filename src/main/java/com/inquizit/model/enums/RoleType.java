@@ -11,6 +11,16 @@ public enum RoleType {
         this.value = value;
     }
 
+    public static RoleType getRoleType(int value) {
+        for (RoleType type : values()) {
+            if (type.value == value) {
+                return type;
+            }
+        }
+
+        return null;
+    }
+
     public int getValue() {
         for (RoleType type : values()) {
             if (type.value == value) {
