@@ -51,7 +51,21 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<QuizInfoResponse> getAllQuizzes() {
-        return null;
+        QuizInfoResponse quiz1 = new QuizInfoResponse(
+                "Maths Quiz",
+                "math",
+                "Quiz about numbers",
+                5
+        );
+
+        QuizInfoResponse quiz2 = new QuizInfoResponse(
+                "Space Quiz",
+                "space",
+                "Quiz about planets",
+                6
+        );
+
+        return List.of(quiz1, quiz2);
     }
 
     @Override
