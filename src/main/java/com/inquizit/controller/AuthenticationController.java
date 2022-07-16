@@ -43,15 +43,6 @@ public class AuthenticationController {
         response.sendRedirect(googleSignInRedirect);
     }
 
-    /**
-     * Retrieving user role type
-     * @return role type mapped to integer value
-     */
-    @GetMapping("/role")
-    public @ResponseBody int getUserRole() {
-        return RoleType.TEACHER.getValue();
-    }
-
     @GetMapping("/login-facebook")
     public void handleFacebookLogin(HttpServletResponse response) throws IOException {
         // Redirecting user to google sign up page

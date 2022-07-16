@@ -10,7 +10,7 @@ public class DomainToOutput {
 
     /**
      * Converts a user object in domain format to output format by changing the role type from
-     * {@link com.inquizit.model.enums.RoleType} to int
+     * {@link com.inquizit.model.enums.RoleType} to int and renaming property
      *
      * @param user object in domain format
      * @return a {@link UserOutput} object

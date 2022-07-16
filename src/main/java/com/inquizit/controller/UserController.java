@@ -47,10 +47,11 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/{id}")
-    public @ResponseBody UserOutput getUserData(@PathVariable String id) {
-        User user = userService.getUserData(id);
-        return DomainToOutput.convert(user);
+    @GetMapping("/user")
+    public @ResponseBody UserOutput getUserData(@AuthenticationPrincipal OAuth2User user) {
+        String email = (String) user.getAttributes().get("email");
+        User userObj = userService.getUserData(email);
+        return DomainToOutput.convert(userObj);
     }
 
     @PostMapping("/user/{id}/role")

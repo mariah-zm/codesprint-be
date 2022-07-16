@@ -13,6 +13,6 @@ public class UserOutput {
 
     private String email;
     private String name;
-    private int type;
+    private int role;
 
 }

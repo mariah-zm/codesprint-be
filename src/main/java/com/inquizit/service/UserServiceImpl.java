@@ -24,6 +24,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserData(String email) {
-        return null;
+        return new User("mariah.zammit", "Mariah Zammit", RoleType.TEACHER);
     }
 }
