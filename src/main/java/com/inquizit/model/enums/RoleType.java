@@ -3,7 +3,8 @@ package com.inquizit.model.enums;
 
 public enum RoleType {
     STUDENT(1),
-    TEACHER(2);
+    TEACHER(2),
+    NONE(3);
 
     private final int value;
 

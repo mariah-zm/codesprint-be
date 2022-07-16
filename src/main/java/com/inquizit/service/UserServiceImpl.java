@@ -9,7 +9,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean doesUserExist(String email) {
-        return true;
+        return false;
     }
 
     @Override
@@ -24,6 +24,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserData(String email) {
-        return new User("mariah.zammit", "Mariah Zammit", RoleType.TEACHER);
+        return new User("mariah.zammit", "Mariah Zammit", RoleType.NONE);
     }
 }
