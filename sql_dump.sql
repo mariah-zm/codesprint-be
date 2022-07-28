@@ -4,7 +4,7 @@ CREATE TABLE "quiz" (
   "description" varchar(250),
   "passing_score" int,
   "show_correct" boolean,
-  "msg_fail" varchar(100),
+  "msg_failure" varchar(100),
   "msg_success" varchar(100)
 );
 

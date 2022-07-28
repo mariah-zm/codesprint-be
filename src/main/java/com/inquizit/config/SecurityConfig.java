@@ -15,7 +15,7 @@ public class SecurityConfig {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/auth/logout", "/auth/role", "/quiz", "/user")
+                    .antMatchers("/auth/logout", "/auth/role", "/quiz/new", "/user")
                     .authenticated()
                     .and()
                 .authorizeRequests()

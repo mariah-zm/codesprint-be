@@ -44,3 +44,7 @@ server:
 client:
   url: http://localhost:${client.port}
   port: 4200
+
+springdoc:
+  packagesToScan: com.inquizit.controller
+  pathsToMatch: /**
